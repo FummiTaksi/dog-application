@@ -1,0 +1,46 @@
+version: '3.7'
+services:
+
+  dog-frontend:
+    build: ./react-query-test
+    image: dog-frontend
+    working_dir: /app
+    restart: on-failure
+    volumes:
+      - ./react-query-test:/app
+      - /app/node_modules
+    environment:
+      - NEXT_PUBLIC_BACKEND_HOST=http://localhost:3000
+    ports:
+      - '3001:3001'
+
+  dog-api:
+    build: ./dog-api
+    image: dog-api
+    working_dir: /app
+    restart: on-failure
+    volumes:
+      - ./dog-api:/app
+      - /app/node_modules
+    environment:
+      - TYPEORM_HOST=dog-db
+      - TYPEORM_PORT=5432
+      - TYPEORM_USERNAME=dog
+      - TYPEORM_PASSWORD=password
+      - TYPEORM_DATABASE=dog
+      - TYPEORM_MIGRATIONS_TABLE_NAME=migrations
+      - TYPEORM_MIGRATIONS_DIR=src/migrations
+    ports:
+      - '3000:3000'
+    depends_on:
+      - dog-db
+
+
+  dog-db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=dog
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=dog
+    ports:
+      - '5432:5432'
