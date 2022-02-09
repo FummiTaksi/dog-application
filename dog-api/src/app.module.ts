@@ -4,9 +4,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import {DogController} from "./dog/dog.controller";
-import {DogService} from "./dog/dog.service";
-import {DogRepository} from "./dog/dog.repository";
+import { DogController } from './dog/dog.controller';
+import { DogService } from './dog/dog.service';
+import { DogRepository } from './dog/dog.repository';
 
 @Module({
   imports: [
