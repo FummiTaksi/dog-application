@@ -1,7 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {Body, Controller, Post, Put} from '@nestjs/common';
 import { DogService } from './dog.service';
 import { Dog } from '../entities/dog.entity';
 import { CreateDogDto } from './createDog.dto';
+import {AddOwnerDto} from "./addOwner.dto";
 
 @Controller('dogs')
 export class DogController {
@@ -13,5 +14,10 @@ export class DogController {
   @Post()
   public create(@Body() createDogDto: CreateDogDto): Promise<Dog> {
     return this.dogService.create(createDogDto.dogSize);
+  }
+
+  @Put()
+  public addOwner(@Body() addOwnerDto: AddOwnerDto): Promise<Dog> {
+    return this.dogService.addOwner(addOwnerDto);
   }
 }

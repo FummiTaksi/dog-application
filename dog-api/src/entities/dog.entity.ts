@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn} from 'typeorm';
+import { Human } from './human.entity';
 
 export enum DogSize {
   Small = 1,
@@ -13,4 +14,7 @@ export class Dog {
 
   @Column('int')
   public size: DogSize;
+
+  @ManyToOne(() => Human)
+  public owner: Human;
 }

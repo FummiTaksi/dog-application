@@ -7,6 +7,9 @@ import { ConfigModule } from '@nestjs/config';
 import { DogController } from './dog/dog.controller';
 import { DogService } from './dog/dog.service';
 import { DogRepository } from './dog/dog.repository';
+import {HumanRepository} from "./human/human.repository";
+import {HumanController} from "./human/human.controller";
+import {HumanService} from "./human/human.service";
 
 @Module({
   imports: [
@@ -27,9 +30,10 @@ import { DogRepository } from './dog/dog.repository';
       },
     }),
 
-    TypeOrmModule.forFeature([DogRepository]),
+    TypeOrmModule.forFeature([DogRepository, HumanRepository]),
+
   ],
-  controllers: [AppController, DogController],
-  providers: [AppService, DogService],
+  controllers: [AppController, DogController, HumanController],
+  providers: [AppService, DogService, HumanService],
 })
 export class AppModule {}
