@@ -1,1 +1,144 @@
-{"openapi":"3.0.0","paths":{"/":{"get":{"operationId":"AppController_getHello","parameters":[],"responses":{"200":{"description":"","content":{"application/json":{"schema":{"type":"string"}}}}}}},"/dogs":{"post":{"operationId":"DogController_create","summary":"","description":"Creates a Dog entity","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateDogDto"}}}},"responses":{"201":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Dog"}}}}}},"put":{"operationId":"DogController_addOwner","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/AddOwnerDto"}}}},"responses":{"200":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Dog"}}}}}}},"/humans":{"post":{"operationId":"HumanController_create","parameters":[],"requestBody":{"required":true,"content":{"application/json":{"schema":{"$ref":"#/components/schemas/CreateHumanDto"}}}},"responses":{"201":{"description":"","content":{"application/json":{"schema":{"$ref":"#/components/schemas/Human"}}}}}}}},"info":{"title":"Dog API","description":"The Dog API description","version":"1.0","contact":{}},"tags":[{"name":"dogs","description":""}],"servers":[],"components":{"schemas":{"CreateDogDto":{"type":"object","properties":{"dogSize":{"type":"string","enum":["Small","Medium","Large"]}},"required":["dogSize"]},"Dog":{"type":"object","properties":{"id":{"type":"string"},"size":{"enum":["Small","Medium","Large"],"type":"string"},"owner":{"$ref":"#/components/schemas/Human"}},"required":["id","size","owner"]},"Human":{"type":"object","properties":{"id":{"type":"string"},"name":{"type":"string"},"dogs":{"type":"array","items":{"$ref":"#/components/schemas/Dog"}}},"required":["id","name","dogs"]},"AddOwnerDto":{"type":"object","properties":{"humanId":{"type":"string"},"dogId":{"type":"string"}},"required":["humanId","dogId"]},"CreateHumanDto":{"type":"object","properties":{"name":{"type":"string"}},"required":["name"]}}}}
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
+    "/dogs": {
+      "post": {
+        "operationId": "DogController_create",
+        "summary": "",
+        "description": "Creates a Dog entity",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateDogDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Dog" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "operationId": "DogController_addOwner",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/AddOwnerDto" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Dog" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/humans": {
+      "post": {
+        "operationId": "HumanController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateHumanDto" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Human" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "Dog API",
+    "description": "The Dog API description",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [{ "name": "dogs", "description": "" }],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "CreateDogDto": {
+        "type": "object",
+        "properties": {
+          "dogSize": { "type": "string", "enum": ["Small", "Medium", "Large"] }
+        },
+        "required": ["dogSize"]
+      },
+      "Dog": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "size": { "enum": ["Small", "Medium", "Large"], "type": "string" },
+          "owner": { "$ref": "#/components/schemas/Human" }
+        },
+        "required": ["id", "size", "owner"]
+      },
+      "Human": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "dogs": {
+            "type": "array",
+            "items": { "$ref": "#/components/schemas/Dog" }
+          }
+        },
+        "required": ["id", "name", "dogs"]
+      },
+      "AddOwnerDto": {
+        "type": "object",
+        "properties": {
+          "humanId": { "type": "string" },
+          "dogId": { "type": "string" }
+        },
+        "required": ["humanId", "dogId"]
+      },
+      "CreateHumanDto": {
+        "type": "object",
+        "properties": { "name": { "type": "string" } },
+        "required": ["name"]
+      }
+    }
+  }
+}

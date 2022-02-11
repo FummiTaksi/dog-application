@@ -15,6 +15,8 @@ export class DogService {
     const dog = new Dog();
     dog.size = dogSize;
 
+    console.log('dog size: ' + dogSize);
+    console.log('dog' + dog.size);
     return this.dogRepository.save(dog);
   }
 
