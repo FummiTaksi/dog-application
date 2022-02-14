@@ -1,0 +1,6 @@
+*.tfstate
+*.tfstate.*
+*.tfvars
+**/.terraform/*
+google-cloud-credentials.json
+genera.tfvars
