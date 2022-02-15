@@ -8,6 +8,10 @@ provider "google" {
 resource "google_project_service" "service" {
   for_each = toset([
     "sqladmin.googleapis.com",
+    "containerregistry.googleapis.com",
+    "run.googleapis.com",
+    "iam.googleapis.com",
+    "cloudresourcemanager.googleapis.com",
   ])
 
   service = each.key
