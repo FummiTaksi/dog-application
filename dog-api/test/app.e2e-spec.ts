@@ -1,17 +1,41 @@
+import {Test, TestingModule} from "@nestjs/testing";
+import {AppModule} from "../src/app.module";
+import {DogRepository} from "../src/dog/dog.repository";
+import {Dog, DogSize} from "../src/entities/dog.entity";
+import {INestApplication} from "@nestjs/common";
+
 const puppeteer = require('puppeteer');
 
 describe('e2e tests', () => {
+  let dogRepository: DogRepository;
 
-  it('finds Finland', async () => {
+  let dog: Dog;
+  let app: INestApplication;
+  beforeAll(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      imports: [AppModule],
+    }).compile();
+
+    app = module.createNestApplication();
+
+    dogRepository = app.get<DogRepository>(DogRepository);
+
+    dog = new Dog();
+    dog.size = DogSize.Medium;
+
+    await dogRepository.save(dog);
+  });
+  it('finds Dog', async () => {
     const browser = await puppeteer.launch({
       args: ["--no-sandbox"]
     });
     const page = await browser.newPage();
-    await page.goto('http://dog-frontend:3001/countries');
-    await page.waitForSelector('#countries');
-    const textContent = await page.$eval('body', (el) => el.textContent);
-    const includes = textContent.includes('Finland');
-    expect(includes).toBe(true);
-    await browser.close();
+    await page.goto('http://dog-frontend:3001/dogs');
+    await page.waitForSelector(`#dog-${dog.id}`);
+  }, 10000);
+
+  afterAll(async () => {
+    await dogRepository.remove(dog);
+    await app.close();
   });
 });

@@ -26,4 +26,8 @@ export class DogService {
 
     return this.dogRepository.save(dog);
   }
+
+  public async findAll(): Promise<Dog[]> {
+    return this.dogRepository.find();
+  }
 }
