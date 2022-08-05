@@ -1,24 +1,17 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
+const puppeteer = require('puppeteer');
 
-describe('AppController (e2e)', () => {
-  let app: INestApplication;
+describe('e2e tests', () => {
 
-  beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    app = moduleFixture.createNestApplication();
-    await app.init();
-  });
-
-  it('/ (GET)', () => {
-    return request(app.getHttpServer())
-      .get('/')
-      .expect(200)
-      .expect('Hello World!');
+  it('finds Finland', async () => {
+    const browser = await puppeteer.launch({
+      args: ["--no-sandbox"]
+    });
+    const page = await browser.newPage();
+    await page.goto('http://dog-frontend:3001/countries');
+    await page.waitForSelector('#countries');
+    const textContent = await page.$eval('body', (el) => el.textContent);
+    const includes = textContent.includes('Finland');
+    expect(includes).toBe(true);
+    await browser.close();
   });
 });
