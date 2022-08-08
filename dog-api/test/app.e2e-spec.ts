@@ -3,8 +3,8 @@ import {AppModule} from "../src/app.module";
 import {DogRepository} from "../src/dog/dog.repository";
 import {Dog, DogSize} from "../src/entities/dog.entity";
 import {INestApplication} from "@nestjs/common";
+import playwright from 'playwright';
 
-const puppeteer = require('puppeteer');
 
 describe('e2e tests', () => {
   let dogRepository: DogRepository;
@@ -25,14 +25,14 @@ describe('e2e tests', () => {
 
     await dogRepository.save(dog);
   });
-  it('finds Dog', async () => {
-    const browser = await puppeteer.launch({
-      args: ["--no-sandbox"]
-    });
+
+  it('finds Dog with playwright', async () => {
+    const browser = await playwright.webkit.launch();
     const page = await browser.newPage();
     await page.goto('http://dog-frontend:3001/dogs');
     await page.waitForSelector(`#dog-${dog.id}`);
-  }, 10000);
+    await browser.close();
+  });
 
   afterAll(async () => {
     await dogRepository.remove(dog);
