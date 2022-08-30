@@ -1,8 +1,9 @@
 version: '3.7'
 services:
-
   dog-frontend:
-    build: ./react-query-test
+    build:
+      context: ./react-query-test
+      dockerfile: Dockerfile.dev
     image: dog-frontend
     working_dir: /app
     restart: on-failure
