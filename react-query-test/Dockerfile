@@ -5,6 +5,9 @@ WORKDIR /app
 COPY package.json ./
 COPY yarn.lock ./
 COPY tsconfig.json /.
+COPY src ./src
+
+ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN yarn install --frozen-lockfile
 
