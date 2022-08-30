@@ -15,7 +15,9 @@ services:
       - '3001:3001'
 
   dog-api:
-    build: ./dog-api
+    build:
+      context: ./dog-api
+      dockerfile: Dockerfile.dev
     image: dog-api
     working_dir: /app
     restart: on-failure

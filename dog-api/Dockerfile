@@ -1,4 +1,4 @@
-FROM node:14 as node-builder
+FROM node:16-alpine as build
 
 WORKDIR /app
 
@@ -8,17 +8,19 @@ COPY tsconfig.json /app/tsconfig.json
 COPY tsconfig.build.json /app/tsconfig.build.json
 COPY src /app/src
 
+RUN yarn install --frozen-lockfile && yarn build
 
-RUN yarn install --frozen-lockfile
-
-COPY node_modules /app/node_modules
-
-FROM mcr.microsoft.com/playwright:v1.24.2-focal as e2e-runner
+FROM node:16-alpine as deploy
 
 WORKDIR /app
 
-COPY --from=node-builder app /app
+ARG NODE_ENV=production
+COPY package.json ./
+COPY yarn.lock ./
+RUN yarn install --frozen-lockfile --prod
+
+COPY --from=build /app/dist ./dist
 
 EXPOSE 3000
 
-CMD ["yarn", "start:dev"]
+CMD ["node", "dist/main.js"]
