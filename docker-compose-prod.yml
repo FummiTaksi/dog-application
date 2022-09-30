@@ -3,28 +3,24 @@ services:
   dog-frontend:
     build:
       context: ./react-query-test
-      dockerfile: Dockerfile.dev
-    image: dog-frontend
+      args:
+        - NEXT_PUBLIC_BACKEND_HOST=http://localhost:3000
+    image: dog-frontend-prod
     working_dir: /app
     restart: on-failure
-    volumes:
-      - ./react-query-test:/app
-      - /app/node_modules
     environment:
       - NEXT_PUBLIC_BACKEND_HOST=http://localhost:3000
     ports:
-      - '3001:3001'
+      - '8080:8080'
+    depends_on:
+      - dog-api
 
   dog-api:
     build:
       context: ./dog-api
-      dockerfile: Dockerfile.dev
-    image: dog-api
+    image: dog-api-prod
     working_dir: /app
     restart: on-failure
-    volumes:
-      - ./dog-api:/app
-      - /app/node_modules
     environment:
       - TYPEORM_HOST=dog-db
       - TYPEORM_PORT=5432
@@ -37,7 +33,6 @@ services:
       - '3000:3000'
     depends_on:
       - dog-db
-
 
   dog-db:
     image: postgres

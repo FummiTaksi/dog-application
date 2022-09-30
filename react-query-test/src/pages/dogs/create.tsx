@@ -42,6 +42,7 @@ const CreateDog: NextPage = () => {
         <Select
           value={dogSize ?? DogSize.Small}
           label={"size"}
+          // @ts-ignore
           onChange={(e) => setDogSize(e.target.value  ?? DogSize.Small as DogSize)}
         >
           { dogSizes.map((dogSize) => {
