@@ -1,6 +1,6 @@
 variable "gcloud_region" { default = "europe-north1" }
 variable "gcloud_zone" { default = "europe-north1-a" }
-variable "gcloud_project" { default = "" }
+variable "gcloud_project" { default = "efi-ig-iac-2022" }
 
 variable "dog_backend_sql_database_instance_name" { default = "dog-backend-database-instance" }
 variable "dog_backend_database_name" { default = "backend-database" }
