@@ -21,12 +21,13 @@ resource "google_sql_database_instance" "instance" {
     }
   }
 
-  deletion_protection = true
+  deletion_protection = false
 }
 
 resource "google_sql_database" "database" {
   name = "${local.environment_name}-dog-db"
   instance = google_sql_database_instance.instance.name
+  depends_on = [google_sql_user.user]
 }
 
 resource "google_sql_user" "user" {
