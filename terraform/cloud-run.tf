@@ -19,7 +19,7 @@ resource "google_cloud_run_service" "dog-api" {
   template {
     spec {
       containers {
-        image = ""
+        image = "europe-north1-docker.pkg.dev/efi-ig-iac-2022/dog-application/dog-api:latest"
 
         env {
           name  = "TYPEORM_HOST"
