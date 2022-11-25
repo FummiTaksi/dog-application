@@ -1,5 +1,9 @@
+terraform {
+
+}
+
 resource "google_sql_database_instance" "instance" {
-  name             = "${local.environment_name}-${var.dog_backend_sql_database_instance_name}"
+  name             = "${var.environment_name}-${var.dog_backend_sql_database_instance_name}"
   region           = var.gcloud_region
   database_version = "POSTGRES_14"
 
@@ -25,7 +29,7 @@ resource "google_sql_database_instance" "instance" {
 }
 
 resource "google_sql_database" "database" {
-  name = "${local.environment_name}-dog-db"
+  name = "${var.environment_name}-dog-db"
   instance = google_sql_database_instance.instance.name
   depends_on = [google_sql_user.user]
 }
@@ -33,7 +37,7 @@ resource "google_sql_database" "database" {
 resource "google_sql_user" "user" {
   name = "dog-db-user"
   instance = google_sql_database_instance.instance.name
-  password = local.typeorm_password
+  password = var.typeorm_password
 
   lifecycle {
     ignore_changes = [password]
