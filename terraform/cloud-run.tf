@@ -23,7 +23,7 @@ resource "google_cloud_run_service" "dog-api" {
 
         env {
           name  = "TYPEORM_HOST"
-          value = "/cloudsql/${google_sql_database_instance.instance.connection_name}"
+          value = "/cloudsql/${module.google_cloud_sql.instance_connection_name}"
         }
 
         env {
@@ -33,7 +33,7 @@ resource "google_cloud_run_service" "dog-api" {
 
         env {
           name  = "TYPEORM_USERNAME"
-          value = google_sql_user.user.name
+          value = module.google_cloud_sql.google_sql_user_name
         }
 
         env {
@@ -43,7 +43,7 @@ resource "google_cloud_run_service" "dog-api" {
 
         env {
           name  = "TYPEORM_DATABASE"
-          value = google_sql_database.database.name
+          value = module.google_cloud_sql.google_sql_database_name
         }
 
         env {
@@ -79,7 +79,7 @@ resource "google_cloud_run_service" "dog-api" {
 
     metadata {
       annotations = {
-        "run.googleapis.com/cloudsql-instances" = google_sql_database_instance.instance.connection_name
+        "run.googleapis.com/cloudsql-instances" = module.google_cloud_sql.instance_connection_name
         "run.googleapis.com/client-name"        = "terraform"
         "autoscaling.knative.dev/minScale"      = 1
         "autoscaling.knative.dev/maxScale"      = 1
@@ -98,5 +98,5 @@ resource "google_cloud_run_service" "dog-api" {
     ignore_changes = [metadata]
   }
 
-  depends_on = [google_project_service.service, google_sql_database_instance.instance]
+  depends_on = [google_project_service.service, module.google_cloud_sql]
 }

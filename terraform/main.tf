@@ -30,3 +30,14 @@ terraform {
     prefix = "terraform/state"
   }
 }
+
+module "google_cloud_sql" {
+  source = "./modules/cloud-sql"
+
+  environment_name = local.environment_name
+  dog_backend_sql_database_instance_name = "${local.environment_name}-dog-db"
+  gcloud_region =  var.gcloud_region
+  gcloud_zone = var.gcloud_zone
+  database_max_connections = var.database_max_connections
+  typeorm_password = local.typeorm_password
+}

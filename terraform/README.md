@@ -9,6 +9,10 @@
 
 ## Setup
 
+Ensure that you are on current gcloud project with `gcloud config get-value project`
+
+When using first time or when using new modules
+
 ```
 terraform init
 ```
@@ -28,7 +32,7 @@ terraform plan
 terraform apply
 ```
 
-destroy resources withh 
+destroy resources with 
 
 ```
 terraform destroy
