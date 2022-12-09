@@ -6,7 +6,7 @@ resource "google_cloud_run_service_iam_member" "users" {
 }
 
 resource "google_cloud_run_service" "dog-api" {
-  name     = "${local.environment_name}-${var.dog_backend_service_name}"
+  name     = "${var.environment_name}-${var.dog_backend_service_name}"
   location = var.gcloud_region
 
 
@@ -23,7 +23,7 @@ resource "google_cloud_run_service" "dog-api" {
 
         env {
           name  = "TYPEORM_HOST"
-          value = "/cloudsql/${module.google_cloud_sql.instance_connection_name}"
+          value = "/cloudsql/${var.instance_connection_name}"
         }
 
         env {
@@ -33,17 +33,17 @@ resource "google_cloud_run_service" "dog-api" {
 
         env {
           name  = "TYPEORM_USERNAME"
-          value = module.google_cloud_sql.google_sql_user_name
+          value = var.google_sql_user_name
         }
 
         env {
           name  = "TYPEORM_PASSWORD"
-          value = local.typeorm_password
+          value = var.typeorm_password
         }
 
         env {
           name  = "TYPEORM_DATABASE"
-          value = module.google_cloud_sql.google_sql_database_name
+          value = var.google_sql_database_name
         }
 
         env {
@@ -79,7 +79,7 @@ resource "google_cloud_run_service" "dog-api" {
 
     metadata {
       annotations = {
-        "run.googleapis.com/cloudsql-instances" = module.google_cloud_sql.instance_connection_name
+        "run.googleapis.com/cloudsql-instances" = var.instance_connection_name
         "run.googleapis.com/client-name"        = "terraform"
         "autoscaling.knative.dev/minScale"      = 1
         "autoscaling.knative.dev/maxScale"      = 1
@@ -97,6 +97,4 @@ resource "google_cloud_run_service" "dog-api" {
   lifecycle {
     ignore_changes = [metadata]
   }
-
-  depends_on = [google_project_service.service, module.google_cloud_sql]
 }
