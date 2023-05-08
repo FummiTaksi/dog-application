@@ -98,3 +98,27 @@ resource "google_cloud_run_service" "dog-api" {
     ignore_changes = [metadata]
   }
 }
+
+
+resource "google_cloud_run_service_iam_policy" "service_policy" {
+  project  = var.gcloud_project
+  location = var.gcloud_region
+  service  = google_cloud_run_service.dog-api.name
+  policy_data = jsonencode({
+    "bindings": [
+      {
+        "role": "roles/run.admin"
+      }
+    ],
+    "etag": ""
+  })
+
+  lifecycle {
+    ignore_changes = [policy_data]
+  }
+}
+
+resource "google_pubsub_topic" "deployment_topic" {
+  depends_on = [google_cloud_run_service_iam_policy.service_policy]
+  name = "deployment-topic"
+}
