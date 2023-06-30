@@ -122,3 +122,23 @@ resource "google_pubsub_topic" "deployment_topic" {
   depends_on = [google_cloud_run_service_iam_policy.service_policy]
   name = "deployment-topic"
 }
+
+resource "google_pubsub_subscription" "deployment_subscription" {
+  name   = "deployment-subscription"
+  topic  = google_pubsub_topic.deployment_topic.name
+  ack_deadline_seconds = 30
+}
+
+
+resource "google_cloudfunctions_function" "hello_world_function" {
+  name                  = "hello-world"
+  runtime               = "nodejs14"
+  region                = "europe-west1"
+  source_archive_bucket = "efi-cloudfunctions-bucket"
+  source_archive_object = "cloud-function.zip"
+  entry_point           = "helloWorld"
+  event_trigger {
+    event_type = "google.pubsub.topic.publish"
+    resource   = "projects/${var.gcloud_project}/topics/${google_pubsub_topic.deployment_topic.name}"
+  }
+}

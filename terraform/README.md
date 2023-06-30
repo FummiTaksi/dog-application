@@ -11,7 +11,7 @@
 
 Ensure that you are on current gcloud project with `gcloud config get-value project`
 
-When using first time or when using new modules, create new bucket named `dog-application-tf-state` manually from GCP console, then run
+When using first time or when using new modules, create new bucket named `dog-application-tf-state`  and `efi-cloudfunctions-bucket` manually from GCP console, then run
 
 ```
 terraform init
