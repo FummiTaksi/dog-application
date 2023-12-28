@@ -1,0 +1,3 @@
+name: dog-application
+runtime: nodejs
+description: Deploy dog-application using pulumi
